@@ -40,4 +40,25 @@ const currentDate =
   ":" +
   ("0" + date.getMinutes()).slice(-2);
 
-module.exports = { keyToText, isRequired, currentDate, getCell };
+const tab_1 = '    ';
+const tab_2 = '        ';
+
+const convertMessagesToString = (messages) => {
+  if (typeof messages === 'string') return messages
+  let content = '';
+  messages.forEach((item, index) => {
+    content += `${index + 1} ${item} ${index + 1 === messages.length ? '' : '\n'
+      }`
+  })
+  return content
+}
+
+const multiplierTab = (count) => {
+  let content = ''
+  for (let i = 1; i < count; i++) {
+    content += tab_1
+  }
+  return content
+}
+
+module.exports = { keyToText, isRequired, currentDate, getCell, tab_1, tab_2, convertMessagesToString, multiplierTab };
