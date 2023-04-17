@@ -254,8 +254,10 @@ const session3 = () => {
         console.log("Lỗi format data Status Reponse ");
       }
     };
-    const dataWSStatusRespone = wsStatusReponse(data.response.status);
-    writeExcel(dataWSStatusRespone);
+    if (data.response.status) {
+      const dataWSStatusRespone = wsStatusReponse(data.response.status);
+      writeExcel(dataWSStatusRespone);
+    }
   };
   if (data.response) wsStatusResponse_F();
 };
@@ -321,8 +323,10 @@ const session4 = () => {
       origin: getCell(rowCurrent, "B"),
     };
   };
-  const dataWsResponseOk = wsResponse(data.response.data);
-  writeExcel(dataWsResponseOk);
+  if (data.response.data) {
+    const dataWsResponseOk = wsResponse(data.response.data);
+    writeExcel(dataWsResponseOk);
+  }
 
   rowCurrent += 1;
   const header_ws4_not_ok = [
@@ -338,8 +342,10 @@ const session4 = () => {
   ];
 
   writeExcel({ data: header_ws4_not_ok, origin: getCell(rowCurrent, "B") });
-  const dataWsResponseNotOk = wsResponse(data.response.data_error);
-  writeExcel(dataWsResponseNotOk);
+  if (data.response.data_error) {
+    const dataWsResponseNotOk = wsResponse(data.response.data_error);
+    writeExcel(dataWsResponseNotOk);
+  }
 };
 if (data.response.data) session4();
 // session 4 **
