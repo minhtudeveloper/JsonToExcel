@@ -76,12 +76,62 @@ if (data.info) session1();
 const session2 = () => {
   const wsRequest = (fields) => {
     try {
-      const data = fields.map((field, index) => {
-        const { description, name, type, note, validate } = field;
+      const data = [];
+      fields.forEach((field, index) => {
+        const { description, name, type, note, validate, values } = field;
         const checkRequest = isRequired(validate);
         const checkMin = checkMin_F(validate);
         const checkMax = checkMax_F(validate);
-        return [
+        if (type.toLowerCase() === "array" || type.toLowerCase() === "object") {
+          let ob = values[0];
+          if (type.toLowerCase() === "object") ob = values;
+          data.push([
+            { v: index + 1, s: styleCellTable },
+            { v: description, s: styleCellTable },
+            { v: name, s: styleCellTable },
+            { v: type, s: styleCellTable },
+            {
+              v: `${checkRequest ? "yes" : "no"}${tab_1} - ${tab_1}${
+                checkMin ? checkMin : "no"
+              }${tab_1} - ${tab_1}${checkMax ? checkMax : "no"}`,
+              s: styleCellTable,
+            },
+            { v: note, s: styleCellTable },
+          ]);
+          console.log({ ob });
+          if (typeof ob === "object") {
+            let indexOb = 0;
+            for (const [key, value] of Object.entries(ob)) {
+              indexOb++;
+              data.push([
+                { v: `${index + 1}.${indexOb}`, s: styleCellTable },
+                {
+                  v: `${tab_1}${value.description}`,
+                  s: styleCellTable,
+                },
+                { v: `${tab_1}${key}`, s: styleCellTable },
+                { v: value.type, s: styleCellTable },
+                {
+                  v: `${
+                    isRequired(value.validate) ? "yes" : "no"
+                  }${tab_1} - ${tab_1}${
+                    checkMin_F(value.validate)
+                      ? checkMin_F(value.validate)
+                      : "no"
+                  }${tab_1} - ${tab_1}${
+                    checkMax_F(value.validate)
+                      ? checkMax_F(value.validate)
+                      : "no"
+                  }`,
+                  s: styleCellTable,
+                },
+                { v: value.note, s: styleCellTable },
+              ]);
+            }
+          }
+          return;
+        }
+        data.push([
           { v: index + 1, s: styleCellTable },
           { v: description, s: styleCellTable },
           { v: name, s: styleCellTable },
@@ -93,7 +143,7 @@ const session2 = () => {
             s: styleCellTable,
           },
           { v: note, s: styleCellTable },
-        ];
+        ]);
       });
 
       return {
@@ -203,6 +253,12 @@ const session3 = () => {
         const length = Object.entries(request).length;
         for (const [key, value] of Object.entries(request)) {
           i++;
+          if (typeof value === "object") {
+            content += `${key}: ${tab_1}${JSON.stringify(value)} ${
+              length === i ? "" : "\n"
+            }`;
+            continue;
+          }
           content += `${key}: ${value} ${length === i ? "" : "\n"}`;
         }
         return {

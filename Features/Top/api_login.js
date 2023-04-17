@@ -47,10 +47,88 @@ const data = {
         },
       ],
     },
+    {
+      name: "schedule",
+      description: "schedule description",
+      type: "Array",
+      note: "không có ghi chú chi",
+      values: [
+        {
+          subject_id: {
+            description: "Subject Id",
+            type: "String",
+            note: "không có ghi chú chi",
+            validate: [
+              {
+                require: true,
+                message: "trường này bắt buộc phải nhập",
+              },
+            ],
+          },
+          day: {
+            description: "Day description",
+            type: "String",
+            note: "không có ghi chú chi",
+          },
+          start_time: {
+            description: "start time description",
+            type: "String",
+            note: "không có ghi chú chi",
+          },
+          end_time: {
+            description: "start time description",
+            type: "String",
+            note: "không có ghi chú chi",
+          },
+        },
+      ],
+    },
+    {
+      name: "schedule2",
+      description: "schedule description",
+      type: "Object",
+      note: "không có ghi chú chi",
+      values: {
+        subject_id: {
+          description: "Subject Id",
+          type: "String",
+          note: "không có ghi chú chi",
+          validate: [
+            {
+              require: true,
+              message: "trường này bắt buộc phải nhập",
+            },
+          ],
+        },
+        day: {
+          description: "Day description",
+          type: "String",
+          note: "không có ghi chú chi",
+        },
+        start_time: {
+          description: "start time description",
+          type: "String",
+          note: "không có ghi chú chi",
+        },
+        end_time: {
+          description: "start time description",
+          type: "String",
+          note: "không có ghi chú chi",
+        },
+      },
+    },
   ],
   request: {
     user_name: "a@gmail.com",
     password: "123@123",
+    schedule: [
+      {
+        subject_id: 1,
+        day: "tuesday",
+        start_time: "10:10",
+        end_time: "13:00",
+      },
+    ],
   },
   response: {
     status: [
