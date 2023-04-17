@@ -98,7 +98,6 @@ const session2 = () => {
             },
             { v: note, s: styleCellTable },
           ]);
-          console.log({ ob });
           if (typeof ob === "object") {
             let indexOb = 0;
             for (const [key, value] of Object.entries(ob)) {
@@ -199,7 +198,46 @@ const session3 = () => {
     try {
       const data = [];
       fields.forEach((field, index) => {
-        const { description, name, type, note, validate } = field;
+        const { description, name, type, note, validate, values } = field;
+
+        if (type.toLowerCase() === "array" || type.toLowerCase() === "object") {
+          let ob = values[0];
+          if (type.toLowerCase() === "object") ob = values;
+          for (const [key, value] of Object.entries(ob)) {
+            const validate = value.validate;
+            if (!validate) return;
+            validate.forEach((item, indexV) => {
+              if (item.require) {
+                data.push([{ v: `${name} không có`, s: styleCellTable }]);
+                data.push([
+                  { v: tab_1 + `${item.message}`, s: styleCellTable },
+                ]);
+              }
+              if (item.min) {
+                data.push([
+                  {
+                    v: `${name} có độ dài nhỏ hơn ${item.min}`,
+                    s: styleCellTable,
+                  },
+                ]);
+                data.push([
+                  { v: tab_1 + `${item.message}`, s: styleCellTable },
+                ]);
+              }
+              if (item.max) {
+                data.push([
+                  {
+                    v: `${name} có độ dài lớn hơn ${item.max}`,
+                    s: styleCellTable,
+                  },
+                ]);
+                data.push([
+                  { v: tab_1 + `${item.message}`, s: styleCellTable },
+                ]);
+              }
+            });
+          }
+        }
         if (!validate || validate.length === 0) return;
         validate.forEach((item, indexV) => {
           if (item.require) {
