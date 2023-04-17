@@ -14,6 +14,7 @@ const {
   multiplierTab,
   checkMin_F,
   checkMax_F,
+  tab_2,
 } = require("./utils");
 
 const origin1 = "B2";
@@ -140,7 +141,7 @@ const session3 = () => {
     origin: getCell(rowCurrent, "B"),
   });
   writeExcel({
-    data: [[tab_1 + "■ Check Validate"]],
+    data: [[tab_1 + "■ Check Validate", data.errorValidate]],
     origin: getCell(rowCurrent, "B"),
   });
 
@@ -234,13 +235,16 @@ const session3 = () => {
   });
 
   const wsStatusResponse_F = () => {
-    const wsStatusReponse = (response) => {
+    const wsStatusReponse = (status) => {
       try {
         let data = [];
-        data.push([{ v: `OK`, s: styleCellTable }]);
-        data.push([{ v: `${tab_1}${response.ok}`, s: styleCellTable }]);
-        data.push([{ v: `Not Ok`, s: styleCellTable }]);
-        data.push([{ v: `${tab_1}${response.notOk}`, s: styleCellTable }]);
+        status.forEach((item, index) => {
+          data.push([{ v: item.description, s: styleCellTable }]);
+          data.push([{ v: `${tab_1}OK`, s: styleCellTable }]);
+          data.push([{ v: `${tab_2}${item.ok}`, s: styleCellTable }]);
+          data.push([{ v: `${tab_1}Not Ok`, s: styleCellTable }]);
+          data.push([{ v: `${tab_2}${item.notOk}`, s: styleCellTable }]);
+        });
 
         return {
           data,
@@ -250,7 +254,7 @@ const session3 = () => {
         console.log("Lỗi format data Status Reponse ");
       }
     };
-    const dataWSStatusRespone = wsStatusReponse(data.response);
+    const dataWSStatusRespone = wsStatusReponse(data.response.status);
     writeExcel(dataWSStatusRespone);
   };
   if (data.response) wsStatusResponse_F();
@@ -372,7 +376,7 @@ wsAll["!cols"] = [
 ];
 
 XLSX.utils.book_append_sheet(wb, wsAll, data.info.api_name);
-console.log("name : ", `${data.files.dirname}${data.files.name}.xlsx`);
+console.log("name : ", `${data.files.dirname}\${data.files.name}.xlsx`);
 // Write the workbook to a file
 const newFolderPath = path.join(data.files.dirname);
 fs.mkdir(newFolderPath, (err) => {

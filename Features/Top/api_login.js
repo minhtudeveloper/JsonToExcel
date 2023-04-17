@@ -8,9 +8,12 @@ const data = {
   info: {
     owner: "Ngo Minh Tu",
     api_name: "Api login",
-    path: "api/login",
+    path: "api/login/1",
+    params: ":id -> number",
+    method: "post",
     overview: "đăng nhập",
   },
+  errorValidate: "error :500",
   fields: [
     {
       name: "user_name",
@@ -52,6 +55,18 @@ const data = {
   response: {
     ok: "trả về success code : 200",
     notOk: "Trả về error code: 400 (Refer ■Error code 3)",
+    status: [
+      {
+        description: "note 1",
+        ok: "trả về success code : 200",
+        notOk: "Trả về error code: 400 (Refer ■Error code 3)",
+      },
+      {
+        description: "note 2",
+        ok: "trả về success code : 200",
+        notOk: "Trả về error code: 400 (Refer ■Error code 3)",
+      },
+    ],
     data: {
       token: "token>>>",
       refetch_token: "refetch token>>>",
