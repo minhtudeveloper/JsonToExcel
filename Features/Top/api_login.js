@@ -53,8 +53,6 @@ const data = {
     password: "123@123",
   },
   response: {
-    ok: "trả về success code : 200",
-    notOk: "Trả về error code: 400 (Refer ■Error code 3)",
     status: [
       {
         description: "note 1",
