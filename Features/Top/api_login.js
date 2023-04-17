@@ -1,10 +1,9 @@
 const path = require("path");
 const fileName = path.basename(__filename);
-console.log({ path }, path.dirname(__filename));
-console.log(fileName);
 const data = {
   files: {
     name: fileName.replace(/\.js/g, ""),
+    dirname: __dirname.replace("Features", "outputs"),
   },
   info: {
     owner: "Ngo Minh Tu",
