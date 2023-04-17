@@ -265,8 +265,9 @@ if (data.fields) session3();
 // ** session 4
 const session4 = () => {
   rowCurrent += 3;
-  const header_ws4 = [
+  const header_ws4_ok = [
     [{ v: "Response", s: styleSession }],
+    [{ v: "■ Ok", s: styleCellHeaderTable }],
     [
       { v: "####", s: styleCellHeaderTable },
       { v: "Item", s: styleCellHeaderTable },
@@ -277,7 +278,7 @@ const session4 = () => {
     ],
   ];
 
-  writeExcel({ data: header_ws4, origin: getCell(rowCurrent, "B") });
+  writeExcel({ data: header_ws4_ok, origin: getCell(rowCurrent, "B") });
 
   const wsResponse = (response) => {
     let count = 0;
@@ -291,10 +292,10 @@ const session4 = () => {
         if (typeof value !== "object") {
           rp.push([
             { v: `${i}${j === 0 ? "" : `.${j}`}`, s: styleCellTable },
-            { v: `${multiplierTab(count)}${key}`, s: styleCellTable },
-            { v: typeof value, s: styleCellTable },
-            { v: value, s: styleCellTable },
             { v: keyToText(key), s: styleCellTable },
+            { v: `${multiplierTab(count)}${key}`, s: styleCellTable },
+            { v: value, s: styleCellTable },
+            { v: typeof value, s: styleCellTable },
           ]);
           if (j !== 0) j++;
           else count = 1;
@@ -303,10 +304,10 @@ const session4 = () => {
 
         rp.push([
           { v: `${i}${j === 0 ? "" : `.${j}`}`, s: styleCellTable },
-          { v: `${multiplierTab(count)}${key}`, s: styleCellTable },
-          { v: typeof value, s: styleCellTable },
-          { v: value, s: styleCellTable },
           { v: keyToText(key), s: styleCellTable },
+          { v: `${multiplierTab(count)}${key}`, s: styleCellTable },
+          { v: value, s: styleCellTable },
+          { v: typeof value, s: styleCellTable },
         ]);
         j++;
         rp = rp.concat(genResponse(value));
@@ -320,8 +321,25 @@ const session4 = () => {
       origin: getCell(rowCurrent, "B"),
     };
   };
-  const dataWsRespone = wsResponse(data.response.data);
-  writeExcel(dataWsRespone);
+  const dataWsResponseOk = wsResponse(data.response.data);
+  writeExcel(dataWsResponseOk);
+
+  rowCurrent += 1;
+  const header_ws4_not_ok = [
+    [{ v: "■ Not Ok", s: styleCellHeaderTable }],
+    [
+      { v: "####", s: styleCellHeaderTable },
+      { v: "Item", s: styleCellHeaderTable },
+      { v: "Tên Vật Lý", s: styleCellHeaderTable },
+      { v: "Value", s: styleCellHeaderTable },
+      { v: "Kiểu data", s: styleCellHeaderTable },
+      { v: "Ghi chú", s: styleCellHeaderTable },
+    ],
+  ];
+
+  writeExcel({ data: header_ws4_not_ok, origin: getCell(rowCurrent, "B") });
+  const dataWsResponseNotOk = wsResponse(data.response.data_error);
+  writeExcel(dataWsResponseNotOk);
 };
 if (data.response.data) session4();
 // session 4 **

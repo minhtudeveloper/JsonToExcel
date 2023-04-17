@@ -78,6 +78,10 @@ const data = {
       idNe: "aaaa",
       rooms: [{ a3_1: "+++=" }, { a3_2: "-----" }],
     },
+    data_error: {
+      error: "200",
+      message: "Api error",
+    },
   },
   errors: [
     {
